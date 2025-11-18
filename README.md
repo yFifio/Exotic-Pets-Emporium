@@ -1,11 +1,5 @@
 # 🦎 Exotic Pets Emporium
 
-![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
-![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
-![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
-
 ## 📝 Descrição
 
 O **Exotic Pets Emporium** é uma plataforma de e-commerce desenvolvida em PHP puro utilizando a arquitetura **MVC (Model-View-Controller)**. O sistema simula a adoção de animais exóticos, oferecendo uma experiência completa desde o catálogo de produtos até o checkout com integração de pagamentos.
