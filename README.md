@@ -14,18 +14,18 @@ O projeto conta com uma área administrativa robusta para gestão de estoque, vi
 
 ## 🚀 Funcionalidades
 
-* **Arquitetura MVC:** Estrutura organizada em Models, Views e Controllers.
+* **Arquitetura MVC:** Estrutura organizada em Models, Views e Controllers para fácil manutenção.
 * **Autenticação de Usuários:** Sistema de Login e Registro com diferenciação de níveis de acesso (Admin/Cliente).
 * **Catálogo de Produtos:** Visualização de animais com detalhes, fotos e preços.
 * **Carrinho de Compras:** Adição, remoção e atualização de itens no cesto de adoção.
 * **Checkout e Pagamentos:**
     * Simulação de Cartão de Crédito, Boleto e PIX.
-    * **Integração com Mercado Pago SDK**.
+    * **Integração com Mercado Pago SDK** para processamento de pagamentos.
 * **Dashboard Administrativo:**
     * Gráficos interativos (Chart.js) para total de adoções, usuários e animais.
     * Filtros de data para relatórios.
     * Listagem de atividades recentes.
-* **Banco de Dados Avançado:** Utilização de Procedures, Triggers e Functions para auditoria e lógica de negócio.
+* **Banco de Dados Avançado:** Utilização de Procedures, Triggers e Functions para auditoria e lógica de negócio diretamente no banco.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -38,6 +38,7 @@ O projeto conta com uma área administrativa robusta para gestão de estoque, vi
 ## 📦 Instalação e Configuração
 
 ### Pré-requisitos
+
 * Servidor Web (Apache/Nginx)
 * PHP >= 8.2
 * MySQL
@@ -62,19 +63,18 @@ O projeto conta com uma área administrativa robusta para gestão de estoque, vi
     ```bash
     npm install
     ```
-    *(Nota: O TypeScript é compilado para a pasta `public/js` conforme configurado no `tsconfig.json`)*.
+    *(Nota: O TypeScript é compilado para a pasta `public/js` conforme configurado no `tsconfig.json`)*
 
 4.  **Configuração do Banco de Dados:**
-    * Crie um banco de dados chamado `e-comercce`.
-    * Configure as credenciais no arquivo `config/database.php`.
+    * Crie um banco de dados chamado `e-comercce` no seu MySQL.
+    * Verifique as credenciais no arquivo `config/database.php` e ajuste se necessário.
     * **Importante:** Execute os scripts SQL abaixo para criar a estrutura necessária.
 
 ### 🗄️ Scripts SQL (Setup do Banco)
 
-Execute os comandos abaixo no seu gerenciador de banco de dados (ex: PHPMyAdmin ou DBeaver):
+Execute os comandos abaixo no seu gerenciador de banco de dados (ex: PHPMyAdmin, DBeaver ou Workbench) na ordem apresentada:
 
-<details>
-<summary><strong>1. Criação das Tabelas</strong> (Clique para expandir)</summary>
+**1. Criação das Tabelas**
 
 ```sql
 CREATE TABLE `usuarios` (
@@ -155,79 +155,3 @@ CREATE TABLE `auditoria_precos` (
     `data_modificacao` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (animal_id) REFERENCES animais(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-</details>
-
-<details> <summary><strong>2. Índices e Otimização</strong></summary>
-
-SQL
-
-CREATE INDEX idx_animais_busca ON animais(especie, origem);
-CREATE INDEX idx_adocoes_usuario_id ON adocoes(usuario_id);
-CREATE INDEX idx_adocao_itens_adocao_id ON adocao_itens(adocao_id);
-CREATE INDEX idx_adocao_itens_animal_id ON adocao_itens(animal_id);
-CREATE INDEX idx_pagamentos_adocao_id ON pagamentos(adocao_id);
-</details>
-
-<details> <summary><strong>3. Triggers, Functions e Procedures</strong> (Copiar um bloco por vez)</summary>
-
-SQL
-
-DELIMITER $$
-CREATE FUNCTION `fn_verifica_estoque`(
-    p_animal_id INT,
-    p_quantidade_desejada INT
-) RETURNS BOOLEAN
-READS SQL DATA
-BEGIN
-    DECLARE v_estoque_atual INT;
-    SELECT estoque INTO v_estoque_atual FROM animais WHERE id = p_animal_id;
-    IF v_estoque_atual >= p_quantidade_desejada THEN
-        RETURN TRUE;
-    ELSE
-        RETURN FALSE;
-    END IF;
-END$$
-DELIMITER ;
-SQL
-
-DELIMITER $$
-CREATE TRIGGER `trg_auditoria_preco_update`
-BEFORE UPDATE ON `animais`
-FOR EACH ROW
-BEGIN
-    IF OLD.preco <> NEW.preco THEN
-        INSERT INTO auditoria_precos (animal_id, preco_antigo, preco_novo, usuario_modificacao)
-        VALUES (OLD.id, OLD.preco, NEW.preco, USER()); 
-    END IF;
-END$$
-DELIMITER ;
-SQL
-
-DELIMITER $$
-CREATE PROCEDURE `sp_insere_animais_massa`(IN p_quantidade_inserir INT)
-BEGIN
-    DECLARE i INT DEFAULT 1;
-    WHILE i <= p_quantidade_inserir DO
-        INSERT INTO `animais` (especie, origem, preco, estoque, descricao, data_nascimento, data_cadastro)
-        VALUES (CONCAT('Animal de Teste ', i), 'Origem de Teste', RAND() * 1000 + 50, 10, 'Descrição de teste.', '2025-01-01', NOW());
-        SET i = i + 1;
-    END WHILE;
-END$$
-DELIMITER ;
-</details>
-
-<details> <summary><strong>4. Dados Iniciais (Admin)</strong></summary>
-
-SQL
-
--- Senha padrão: admin
-INSERT INTO `usuarios` (`nome`, `email`, `senha`, `role`) VALUES
-('Admin', 'admin@email.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
-</details>
-
-👨‍💻 Autores
-Lucas de Fiori Viudes
-
-Vitto Lorenzo Barboza Legnani
-
-Lucas Gozer Lopes
