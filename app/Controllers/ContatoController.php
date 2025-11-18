@@ -1,0 +1,71 @@
+<?php
+require_once __DIR__ . '/../Models/Model.php';
+
+class ContatoController {
+
+    public function showForm() {
+        require_once __DIR__ . '/../Views/form.php';
+    }
+
+    public function send() {
+        $db = Database::getInstance()->getConnection();
+        $nome = filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $assunto = filter_input(INPUT_POST, 'assunto', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $mensagem = filter_input(INPUT_POST, 'mensagem', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        if (empty($nome) || !filter_var($email, FILTER_VALIDATE_EMAIL) || empty($assunto) || empty($mensagem)) {
+            $_SESSION['form_feedback'] = ['type' => 'danger', 'message' => 'Por favor, preencha todos os campos corretamente.'];
+            header('Location: /contato');
+            exit();
+        }
+
+        try {
+            $stmt = $db->prepare("INSERT INTO contato_mensagens (nome, email, assunto, mensagem) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$nome, $email, $assunto, $mensagem]);
+            
+            $_SESSION['form_feedback'] = ['type' => 'success', 'message' => 'Sua mensagem foi enviada com sucesso! Entraremos em contato em breve.'];
+            header('Location: /contato');
+            exit();
+        } catch (Exception $e) {
+            $_SESSION['form_feedback'] = ['type' => 'danger', 'message' => 'Ocorreu um erro ao enviar sua mensagem. Tente novamente mais tarde.'];
+            header('Location: /contato');
+            exit();
+        }
+    }
+
+    private function checkAdmin() {
+        if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+            header('Location: /login?acesso_negado=1');
+            exit();
+        }
+    }
+
+    public function showMessages() {
+        $this->checkAdmin();
+
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->query("SELECT * FROM contato_mensagens ORDER BY data_envio DESC");
+        $mensagens = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        require_once __DIR__ . '/../Views/mensagens.php';
+    }
+
+    public function delete() {
+        $this->checkAdmin();
+
+        $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+
+        if (!$id) {
+            header('Location: /index.php/admin/contato');
+            exit();
+        }
+
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("DELETE FROM contato_mensagens WHERE id = ?");
+        $stmt->execute([$id]);
+        $_SESSION['message_feedback'] = ['type' => 'success', 'message' => 'Mensagem excluída com sucesso.'];
+        header('Location: /index.php/admin/contato');
+        exit();
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "require": {
+        "mercadopago/dx-php": "^3.7",
+        "liveecommerce/dx-php": "^3.0"
+    }
+}

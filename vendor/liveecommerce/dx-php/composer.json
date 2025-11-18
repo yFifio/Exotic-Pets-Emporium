@@ -1,0 +1,42 @@
+{
+  "name": "liveecommerce/dx-php",
+  "type": "library",
+  "description": "Fork from mercadopago/dx-php changing the dependencies versions.",
+  "homepage": "https://github.com/liveecommerce/dx-php",
+  "license": "MIT",
+  "version": "3.0.4",
+  "authors": [
+    {
+      "name": "imasson",
+      "role": "Developer",
+      "homepage": "https://github.com/imasson"
+    },
+    {
+      "name": "joelibaceta",
+      "role": "Developer",
+      "homepage": "https://github.com/joelibaceta"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5",
+    "symfony/yaml": "~2.5",
+    "phpmd/phpmd": "@stable",
+    "squizlabs/php_codesniffer": "2.3.*",
+    "sebastian/phpcpd": "*", 
+    "vlucas/phpdotenv": "^2.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "MercadoPago\\": [
+        "src/MercadoPago/",
+        "tests/",
+        "src/MercadoPago/Generic/",
+        "src/MercadoPago/Entities/",
+        "src/MercadoPago/Entities/Shared/"
+      ]
+    }
+  }
+}

@@ -1,0 +1,234 @@
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes rasta-glow {
+  0% {
+    box-shadow: 0 0 8px #009b48, 0 0 12px #fcd116, 0 0 16px #ce1126;
+  }
+  50% {
+    box-shadow: 0 0 16px #ce1126, 0 0 24px #fcd116, 0 0 32px #009b48;
+  }
+  100% {
+    box-shadow: 0 0 8px #009b48, 0 0 12px #fcd116, 0 0 16px #ce1126;
+  }
+}
+
+:root {
+  --rasta-green: #009b48;
+  --rasta-yellow: #fcd116;
+  --rasta-red: #ce1126;
+  --text-color: #2c2c2c;
+  --background-light: #f5f5dc; /* Cor de linho/areia claro */
+  --surface-color: #ffffff;
+
+  --font-family: "Poppins", sans-serif;
+  --border-radius: 12px;
+  --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease-in-out;
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--text-color);
+  background: linear-gradient(
+    -45deg,
+    var(--background-light),
+    #fafad2,
+    #fffacd,
+    var(--background-light)
+  );
+  background-size: 400% 400%;
+  animation: gradient-animation 20s ease infinite;
+}
+
+h2,
+h3 {
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+h1,
+.vehicle-card-content h3 a {
+  background: linear-gradient(
+    45deg,
+    var(--rasta-green),
+    var(--rasta-yellow),
+    var(--rasta-red)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.vehicle-card-content h3 a {
+  font-size: 1.5rem;
+}
+
+a {
+  color: var(--rasta-green);
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--rasta-red);
+  transform: translateY(-2px);
+}
+
+.container {
+  max-width: 1300px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+.main-nav {
+  background: linear-gradient(
+    90deg,
+    var(--rasta-green),
+    var(--rasta-yellow),
+    var(--rasta-red)
+  );
+  padding: 0.8rem 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 3px solid var(--rasta-yellow);
+}
+
+.main-nav .logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.main-nav .nav-link,
+.main-nav .dropdown-toggle {
+  color: #fff !important;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  transition: var(--transition);
+}
+
+.main-nav .nav-link:hover,
+.main-nav .dropdown-toggle:hover {
+  transform: scale(1.1);
+}
+
+.btn {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 50px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(
+    45deg,
+    var(--rasta-red),
+    var(--rasta-yellow),
+    var(--rasta-green)
+  );
+  background-size: 200% 100%;
+  transition: background-position 0.5s ease, transform 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+  background-position: 100% 0;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+.vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 2.5rem;
+}
+
+.vehicle-card {
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: var(--transition);
+  border: 2px solid transparent;
+}
+
+.vehicle-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--rasta-yellow);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  animation: rasta-glow 1.5s infinite alternate;
+}
+
+.vehicle-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.vehicle-card:hover img {
+  transform: scale(1.1);
+}
+
+.vehicle-card-content {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.vehicle-card-content p {
+  font-weight: 500;
+  color: #555;
+}
+
+.vehicle-card-content .price {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--rasta-green);
+  margin-block: 1rem;
+}
+
+.form-container {
+  background-color: var(--surface-color);
+  padding: 2.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  border-top: 10px solid;
+  border-image: linear-gradient(
+      90deg,
+      var(--rasta-green),
+      var(--rasta-yellow),
+      var(--rasta-red)
+    )
+    1;
+}
+
+.form-group input {
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  padding: 12px;
+}
+
+.form-group input:focus {
+  border-color: var(--rasta-green);
+  box-shadow: 0 0 10px rgba(0, 155, 72, 0.2);
+}
+
+.cart-item {
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius);
+  margin-bottom: 1.5rem;
+}
