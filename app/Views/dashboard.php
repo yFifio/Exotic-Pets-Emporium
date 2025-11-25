@@ -38,13 +38,13 @@
         animation: pulse 2s infinite;
     }
 
-    /* Estilo para o botão do calendário */
+
     #datepicker-button {
         background-color: var(--rasta-black);
         color: white;
     }
 
-    /* Animação e Estilo do Calendário (Litepicker) */
+   
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-10px); }
         to { opacity: 1; transform: translateY(0); }
@@ -168,9 +168,9 @@
         </div>
     </div>
 
-    <!-- Gráfico e Atividades Recentes -->
+
     <div class="row">
-        <!-- Gráfico de Rosca -->
+  
         <div class="col-xl-8 col-lg-7">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -184,7 +184,7 @@
             </div>
         </div>
 
-        <!-- Atividades Recentes -->
+      
         <div class="col-xl-4 col-lg-5">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">

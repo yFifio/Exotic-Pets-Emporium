@@ -2,18 +2,14 @@
 require_once __DIR__ . '/../Models/Animal.php';
 
 class AnimalController {
-    /**
-     * Exibe o formulário para adicionar um novo animal.
-     */
+  
     public function create() {
         require_once __DIR__ . '/../Views/animal/create.php';
     }
 
-    /**
-     * Processa os dados do formulário e salva o novo animal no banco de dados.
-     */
+  
     public function store() {
-        // Usar FILTER_SANITIZE_SPECIAL_CHARS para permitir caracteres especiais de forma segura.
+    
         $nome = filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS);
         $especie = filter_input(INPUT_POST, 'especie', FILTER_SANITIZE_SPECIAL_CHARS);
         $raca = filter_input(INPUT_POST, 'raca', FILTER_SANITIZE_SPECIAL_CHARS);

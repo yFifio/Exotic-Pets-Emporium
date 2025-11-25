@@ -2,11 +2,11 @@
 require_once __DIR__ . '/Model.php';
 
 class Animal extends Model {
-    // O construtor e a propriedade $db são herdados de Model.php
+  
 
     public function getAll(bool $adminView = false) {
         $sql = "SELECT * FROM animais";
-        if (!$adminView) { // Para a loja pública, mostrar apenas ativos e com estoque
+        if (!$adminView) { 
             $sql .= " WHERE estoque > 0 AND ativo = 1";
         }
         $sql .= " ORDER BY id DESC";
@@ -69,9 +69,7 @@ class Animal extends Model {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Atualiza os dados de um animal no banco de dados.
-     */
+   
     public function update(int $id, string $especie, ?string $origem, ?string $descricao, float $preco, int $estoque, ?string $imagem_url)
     {
         $sql = "UPDATE animais 
@@ -86,9 +84,7 @@ class Animal extends Model {
         }
     }
 
-    /**
-     * Desativa um animal no banco de dados.
-     */
+   
     public function deactivate(int $id): bool {
         $sql = "UPDATE animais SET ativo = 0 WHERE id = ?";
         try {
@@ -100,9 +96,7 @@ class Animal extends Model {
         }
     }
 
-    /**
-     * Reativa um animal no banco de dados.
-     */
+   
     public function reactivate(int $id): bool {
         $sql = "UPDATE animais SET ativo = 1 WHERE id = ?";
         try {
@@ -114,10 +108,7 @@ class Animal extends Model {
         }
     }
 
-    /**
-     * Exclui permanentemente um animal do banco de dados.
-     * CUIDADO: Esta ação não pode ser desfeita.
-     */
+    
     public function delete(int $id): bool {
         $sql = "DELETE FROM animais WHERE id = ?";
         try {
@@ -133,28 +124,25 @@ class Animal extends Model {
         }
     }
 
-    /**
-     * Exclui um animal e todos os seus registros associados em `adocao_itens`.
-     * Usa uma transação para garantir a integridade dos dados.
-     */
+   
     public function deleteCascade(int $id): bool
     {
         $this->db->beginTransaction();
 
         try {
-            // 1. Excluir os itens de adoção associados
+            
             $sqlItens = "DELETE FROM adocao_itens WHERE animal_id = ?";
             $stmtItens = $this->db->prepare($sqlItens);
             $stmtItens->execute([$id]);
 
-            // 2. Excluir o animal
+          
             $this->delete($id);
 
             $this->db->commit();
             return true;
         } catch (Exception $e) {
             $this->db->rollBack();
-            throw $e; // Relança a exceção para o controller tratar
+            throw $e; 
         }
     }
 }

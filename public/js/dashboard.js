@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const datepickerButton = document.getElementById("datepicker-button");
   const chartCanvas = document.getElementById("myChart");
 
-  const ctx = chartCanvas ? chartCanvas.getContext("2d") : null; // Obtém o contexto de forma segura
+  const ctx = chartCanvas ? chartCanvas.getContext("2d") : null;
   let datepickerLabel = datepickerButton
     ? datepickerButton.querySelector("span")
     : null;
@@ -141,21 +141,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  /**
-   * Inicializa o seletor de datas (Litepicker) de forma robusta,
-   * aguardando a biblioteca ser carregada.
-   */
   const initializeDatePicker = () => {
     if (!datepickerButton) return;
 
-    // Verifica se a biblioteca Litepicker já foi carregada.
     if (typeof Litepicker === "undefined") {
-      // Se não, tenta novamente em 100ms.
       setTimeout(initializeDatePicker, 100);
       return;
     }
 
-    // Previne reinicialização se já houver uma instância.
     if (datepickerButton.hasOwnProperty("_litepicker")) {
       return;
     }

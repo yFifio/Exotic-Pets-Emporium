@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-md-8">
         <form action="/pagamento" method="POST">
-            <!-- Campo oculto para manter o método de pagamento selecionado -->
+          
             <input type="hidden" name="metodo_pagamento" value="<?php echo htmlspecialchars($metodo_pagamento); ?>">
 
             <div class="row g-3">

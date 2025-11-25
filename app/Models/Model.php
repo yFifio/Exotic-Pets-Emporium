@@ -6,7 +6,7 @@ abstract class Model {
 
     public function __construct()
     {
-        $this->db = Database::getInstance()->getConnection(); // This should already be configured with utf8mb4
+        $this->db = Database::getInstance()->getConnection(); 
     }
 
 

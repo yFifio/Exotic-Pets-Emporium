@@ -6,34 +6,24 @@ class AdminAnimalController
 {
     public function __construct()
     {
-        // Proteção para garantir que apenas administradores acessem este controlador
         if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
             http_response_code(403);
             die('Acesso negado.');
         }
     }
 
-    /**
-     * Exibe a lista de todos os animais para o administrador.
-     */
     public function listAll()
     {
         $animalModel = new Animal();
-        $animais = $animalModel->getAll(true); // true para buscar todos, incluindo inativos
+        $animais = $animalModel->getAll(true);
         require_once __DIR__ . '/../Views/admin/listar_animais.php';
     }
 
-    /**
-     * Exibe o formulário para adicionar um novo animal.
-     */
     public function showAddForm()
     {
         require_once __DIR__ . '/../Views/admin/adicionar_animal.php';
     }
 
-    /**
-     * Processa o formulário de criação de um novo animal.
-     */
     public function create()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -48,7 +38,6 @@ class AdminAnimalController
         $estoque = filter_input(INPUT_POST, 'estoque', FILTER_VALIDATE_INT);
         $imagem_url = null;
 
-        // Lógica de upload de imagem
         if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] == 0) {
             $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/imagem/';
             if (!is_dir($uploadDir)) {
@@ -69,9 +58,6 @@ class AdminAnimalController
         exit();
     }
 
-    /**
-     * Exibe o formulário para editar um animal existente.
-     */
     public function showEditForm()
     {
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
@@ -91,9 +77,6 @@ class AdminAnimalController
         require_once __DIR__ . '/../Views/admin/editar_animal.php';
     }
 
-    /**
-     * Processa o formulário de atualização de um animal.
-     */
     public function update()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -117,13 +100,13 @@ class AdminAnimalController
             exit();
         }
 
-        $imagem_url = $animalAtual['imagem_url']; // Manter a imagem atual por padrão
+        $imagem_url = $animalAtual['imagem_url'];
 
-        // Lógica de upload de nova imagem
+
         if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] == UPLOAD_ERR_OK) {
             $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/imagem/';
             
-            // Remove a imagem antiga se uma nova for enviada
+            
             if (!empty($imagem_url) && file_exists($uploadDir . $imagem_url)) {
                 unlink($uploadDir . $imagem_url);
             }
@@ -131,7 +114,7 @@ class AdminAnimalController
             $fileName = uniqid() . '-' . basename($_FILES['imagem']['name']);
             $targetPath = $uploadDir . $fileName;
             if (move_uploaded_file($_FILES['imagem']['tmp_name'], $targetPath)) {
-                $imagem_url = $fileName; // Atualiza para o nome da nova imagem
+                $imagem_url = $fileName; 
             }
         }
 
@@ -142,9 +125,7 @@ class AdminAnimalController
         exit();
     }
 
-    /**
-     * Reativa um animal que estava inativo.
-     */
+    
     public function reactivate()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -176,9 +157,7 @@ class AdminAnimalController
         exit();
     }
 
-    /**
-     * Desativa um animal.
-     */
+    
     public function deactivate()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -202,9 +181,7 @@ class AdminAnimalController
         exit();
     }
 
-    /**
-     * Exclui permanentemente um animal do banco de dados.
-     */
+    
     public function delete()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -222,7 +199,7 @@ class AdminAnimalController
 
         $animalModel = new Animal();
         try {
-            // Opcional: Excluir a imagem associada do servidor
+            
             $animal = $animalModel->find($id);
             if ($animal && !empty($animal['imagem_url'])) {
                 $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/imagem/' . $animal['imagem_url'];
@@ -238,7 +215,7 @@ class AdminAnimalController
             }
         } catch (Exception $e) {
             error_log($e->getMessage());
-            // Captura a exceção específica de chave estrangeira
+            
             if ($e->getCode() == 23000) {
                 $_SESSION['list_feedback'] = ['type' => 'danger', 'message' => $e->getMessage()];
             } else {

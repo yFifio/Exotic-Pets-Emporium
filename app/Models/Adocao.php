@@ -2,7 +2,7 @@
 require_once __DIR__ . '/Model.php';
 
 class Adocao extends Model {
-    // O construtor e a propriedade $db são herdados de Model.php
+ 
 
     public function findByUserId(int $userId) {
         $sql = "
@@ -25,7 +25,7 @@ class Adocao extends Model {
         $stmt->execute([$userId]);
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Agrupar itens por adoção
+
         return $this->groupAdoptionItems($results);
     }
 

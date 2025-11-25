@@ -65,12 +65,12 @@
                             <h5 class="text-danger mb-3">Opções para Animal Inativo</h5>
                             <p>Este animal está inativo e não é exibido na loja. Você pode reativá-lo ou excluí-lo permanentemente.</p>
                             <div class="d-flex justify-content-start gap-2">
-                                <!-- Formulário para Reativar -->
+                             
                                 <form action="/index.php/admin/animais/reactivate" method="POST" onsubmit="return confirm('Tem certeza que deseja reativar este animal?');">
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($animal['id']) ?>">
                                     <button type="submit" class="btn btn-success">Reativar Animal</button>
                                 </form>
-                                <!-- Formulário para Excluir -->
+                            
                                 <form action="/index.php/admin/animais/delete" method="POST" onsubmit="return confirm('ATENÇÃO: Esta ação é irreversível. Tem certeza que deseja excluir permanentemente este animal?');">
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($animal['id']) ?>">
                                     <button type="submit" class="btn btn-danger">Excluir Permanentemente</button>
