@@ -60,7 +60,7 @@ O projeto conta com uma área administrativa robusta para gestão de estoque, vi
     *(Nota: O TypeScript é compilado para a pasta `public/js` conforme configurado no `tsconfig.json`)*
 
 4.  **Configuração do Banco de Dados:**
-    * Crie um banco de dados chamado `e-comercce` no seu MySQL.
+    * Crie um banco de dados chamado `pets` no seu MySQL.
     * Verifique as credenciais no arquivo `config/database.php` e ajuste se necessário.
     * **Importante:** Execute os scripts SQL abaixo para criar a estrutura necessária.
 
